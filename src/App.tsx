@@ -1,14 +1,13 @@
 import "./App.css";
+import NaverMap from "./NaverMap";
 
 function App() {
-  <script
-    type="text/javascript"
-    src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${
-      import.meta.env.VITE_NAVER_MAP_API_KEY_ID
-    }&submodules=geocoder`}
-  ></script>;
-
-  return <></>;
+  return (
+    <div className="App">
+      <h1>네이버 맵 예제</h1>
+      <NaverMap />
+    </div>
+  );
 }
 
 export default App;
