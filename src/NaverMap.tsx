@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const NaverMap: React.FC = () => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -35,7 +35,7 @@ const NaverMap: React.FC = () => {
             map: map,
           };
 
-          const marker = new naver.maps.Marker(markerOptions);
+          //const marker = new naver.maps.Marker(markerOptions);
         });
       } else {
         console.error("Geolocation is not supported by this browser.");
@@ -43,7 +43,14 @@ const NaverMap: React.FC = () => {
     }
   }, []);
 
-  return <div ref={mapRef} style={{ width: "100%", height: "400px" }} />;
+  return (
+    <div
+      className="map-box"
+      style={{ display: "flex", justifyContent: "center" }}
+    >
+      <div ref={mapRef} style={{ width: "50vw", height: "80vh" }} />
+    </div>
+  );
 };
 
 export default NaverMap;
