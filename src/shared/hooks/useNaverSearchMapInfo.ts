@@ -13,7 +13,8 @@ export const useNaverSearchMapInfo = () => {
     const { query, display, sort } = props;
 
     try {
-      const url = `http://43.202.126.199:15048/search/local?query=${query}&display=${display}&sort=${sort}`;
+      //const url = `http://43.202.126.199:15048/search/local?query=${query}&display=${display}&sort=${sort}`;
+      const url = `http://localhost:3000/search/local?query=${query}&display=${display}&sort=${sort}`;
       const response = await axios.get(url);
       console.log("Data:", response.data);
       return response.data;

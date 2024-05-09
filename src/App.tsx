@@ -7,10 +7,30 @@ import {
   useNaverSearchMapInfo,
 } from "./shared/hooks/useNaverSearchMapInfo";
 
+type SearchLocalDataType = {
+  lastBuildDate: string | Date;
+  total: number;
+  start: number;
+  display: number;
+  items: SearchLocalDataItemType[];
+};
+
+export type SearchLocalDataItemType = {
+  title: string;
+  link: string;
+  category: string;
+  description: string;
+  telephone: string;
+  address: string;
+  roadAddress: string;
+  mapx: string;
+  mapy: string;
+};
+
 function App() {
   const { fetchNaverSearchMapInfo } = useNaverSearchMapInfo();
 
-  const [localData, setLocalData] = useState<any | null>(null);
+  const [localData, setLocalData] = useState<SearchLocalDataType | null>(null);
 
   const getNaverSearchMapInfo = async (
     payload: fetchNaverSearchMapInfoQueryType
@@ -23,7 +43,7 @@ function App() {
     e.stopPropagation();
 
     const data = await getNaverSearchMapInfo({
-      query: "갈비찜",
+      query: "가산디지털단지",
       display: 5,
       sort: "random",
     });
@@ -36,7 +56,7 @@ function App() {
   return (
     <div className="App">
       <h1>네이버 맵 예제</h1>
-      <NaverMap />
+      <NaverMap markers={localData?.items || []} />
       <Button onClick={handleClickButton} />
       <pre style={{ textAlign: "left" }}>
         {JSON.stringify(localData, null, 2)}

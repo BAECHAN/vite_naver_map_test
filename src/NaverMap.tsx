@@ -1,18 +1,28 @@
 import React, { useEffect, useRef, useState } from "react";
+import { SearchLocalDataItemType } from "./App";
 
-const NaverMap: React.FC = () => {
+const NaverMap = ({ markers }: { markers: SearchLocalDataItemType[] }) => {
   const mapRef = useRef<HTMLDivElement>(null);
+  const [saveMap, setSaveMap] = useState<naver.maps.Map | null>(null);
 
-  // useEffect(() => {
-  //   if (mapRef.current) {
-  //     const mapOptions = {
-  //       center: new naver.maps.LatLng(37.3595704, 127.105399),
-  //       zoom: 13,
-  //     };
+  useEffect(() => {
+    if (markers.length > 0) {
+      const newMarkers = markers.map((data) => {
+        const marker = new naver.maps.Marker({
+          position: new naver.maps.LatLng(
+            Number(data.mapy) / 1e7,
+            Number(data.mapx) / 1e7
+          ),
+          map: saveMap as naver.maps.Map,
+          title: data.title,
+        });
 
-  //     new naver.maps.Map(mapRef.current, mapOptions);
-  //   }
-  // }, []);
+        console.log("marker : ", marker);
+
+        return marker;
+      });
+    }
+  }, [markers]);
 
   useEffect(() => {
     if (mapRef.current) {
@@ -30,12 +40,28 @@ const NaverMap: React.FC = () => {
             mapOptions
           );
 
-          const markerOptions = {
-            position: new naver.maps.LatLng(latitude, longitude),
-            map: map,
-          };
+          // 추가 마커 위치 배열
+          const markerPositions = [
+            { lat: latitude, lng: longitude, title: "현재 위치" },
+            { lat: 37.5665, lng: 126.978, title: "서울시청" }, // 예시 위치 1
+            { lat: 37.5796, lng: 126.977, title: "경복궁" }, // 예시 위치 2
+            {
+              lat: 35.8359027,
+              lng: 129.2118391,
+              title: "경상북도 경주시 황남동 228-1",
+            }, // 예시 위치 2
+          ];
 
-          //const marker = new naver.maps.Marker(markerOptions);
+          // 추가 마커 설정
+          markerPositions.forEach((position) => {
+            new naver.maps.Marker({
+              position: new naver.maps.LatLng(position.lat, position.lng),
+              map: map,
+              title: position.title,
+            });
+          });
+
+          setSaveMap(map);
         });
       } else {
         console.error("Geolocation is not supported by this browser.");
