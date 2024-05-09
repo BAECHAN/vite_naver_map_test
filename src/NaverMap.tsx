@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { SearchLocalDataItemType } from "./App";
+import "./index.css";
 
 const NaverMap = ({ markers }: { markers: SearchLocalDataItemType[] }) => {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -16,6 +17,12 @@ const NaverMap = ({ markers }: { markers: SearchLocalDataItemType[] }) => {
           map: saveMap as naver.maps.Map,
           title: data.title,
         });
+
+        // 마커에 애니메이션 클래스 추가
+        const markerEl = marker.getElement();
+        if (markerEl) {
+          markerEl.classList.add("bounce");
+        }
 
         console.log("marker : ", marker);
 
